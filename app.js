@@ -6,7 +6,7 @@ const timeOutput = document.querySelector('.time');
 const conditionOutput = document.querySelector('.condition');
 const nameOutput = document.querySelector('.name');
 const icon = document.querySelector('.icon');
-const cloudOutput = document.querySelector('.cloud');
+const windDirectionOutput = document.querySelector('.windDirection');
 const humidityOutput = document.querySelector('.humidity');
 const windOutput = document.querySelector('.wind');
 const form = document.getElementById('locationInput');
@@ -39,7 +39,7 @@ form.addEventListener('submit', (e) => {
 });
 // function returning day of the week
 function dayOfTheWeek(day, month, year) {
-    const weekday = ["sunday", "monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     return weekday[new Date(`${day}/${month}/${year}`).getDay()];
 };
 // function that fetches and display data from weather API
@@ -54,21 +54,21 @@ function fetchWeatherData() {
             //gets date and time from city
 
             const date = data.location.localtime;
-            const y = parseInt(date.substr(0, 4));
-            const m = parseInt(date.substr(5, 2));
             const d = parseInt(date.substr(8, 2));
+            const m = parseInt(date.substr(5, 2));
+            const y = parseInt(date.substr(0, 4));
             const time = date.substr(11);
             //reformating date display
 
-            dateOutput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d} / ${m} / ${y}`
+            dateOutput.innerHTML = `${dayOfTheWeek(d, m, y)} ${d} / ${m} / ${y}`;
             timeOutput.innerHTML = time;
             nameOutput.innerHTML = data.location.name;
-            const iconId = data.current.condition.icon.substr("//cdn.weatherapi.com/weather/64x64/day/".length);
-            icon.src = ".icons/" + iconId;
+            const iconId = data.current.condition.icon.substr("//cdn.weatherapi.com/weather/64x64/".length);
+            icon.src = "./icons/" + iconId;
 
             //weather details
-            cloudOutput.innerHTML = data.current.cloud + "%";
-            humidityOutput.innerHtml = data.current.humidity + "%";
+            windDirectionOutput.innerHTML = data.current.wind_dir;
+            humidityOutput.innerHTML = data.current.humidity + "%";
             windOutput.innerHTML = data.current.wind_kph + "km/h";
 
             //default time of the day
